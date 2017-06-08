@@ -1,5 +1,5 @@
 
-Integrate audio and video features into an iOS app via Spark iOS SDK
+# Integrate audio and video features into an iOS app via Spark iOS SDK
 
 
 Let’s say, you want to develop an app on the iOS platform that allows you and your customers to easily communicate with each other. You want to show your products, but also want to provide live support to them when they need help. Would it be amazing if your app can build audio and video in the app and make the connections with one sliding touch and one pressing!
@@ -14,7 +14,7 @@ In the demo video, the caller view is blank, that’s because I was testing on a
 
 Ok, time to get started. 
 
-Preparation work:
+## Preparation work:
 
 At the first step, we have to get the SDK installed, which is outlined here at https://developer.ciscospark.com/sdk-for-ios.html, so I won’t talk much about this step. Once the SparkSDK is imported into the app without any error/alert prompted, we are ready for the next step.
 
@@ -22,16 +22,19 @@ Secondly, we need to create an OAuth app. It’s used for the iOS app to get an 
 
 Lastly, we need a simple UI. Since this is just a demo, I won’t do much decoration work, and just show the main UI elements.
 
-Sign in, Authorize and Sign out: 
+## Sign in, Authorize and Sign out: 
 
 After the app loads, we need to see whether the user has already authorized his app or not. The below two lines are to get an initialized authenticator, then get a Spark object:
 
+```swift
 authenticator = OAuthAuthenticator.init(clientId: clientId, clientSecret: clientSecret, scope: scope, redirectUri: redirectUri)
         
 spark = Spark.init(authenticator: authenticator!)
+```
 
 We can use the “authorized” attribute of “authenticator” to see if the user has authorized or not. If no, go to the beforeLoginAndAuth() function to ask the user to log in and authorize, otherwise, let him pass the step and go to  afterLoginAndAuth(). The whole script would be:
 
+```swift
 override func viewDidLoad() {
         super.viewDidLoad()
         self.spaceName.delegate = self // set up textField delegate
@@ -48,6 +51,8 @@ override func viewDidLoad() {
         }
 }
 
+```
+
 On the “Sign in and Authorize” button, we register a “Touch Up Inside” event:
 
 
@@ -56,6 +61,7 @@ On the “Sign in and Authorize” button, we register a “Touch Up Inside” e
 
  And under it we do the login and authorization work:
 
+```swift
 // sign in and do the authorization via Oauth
 authenticator!.authorize(parentViewController: self) { success in
             if success {
@@ -65,13 +71,16 @@ authenticator!.authorize(parentViewController: self) { success in
                 }
             }
         }
+```
 
 The authorize() method starts the signing in and OAuth process. It redirects the user to Spark interface to let him input username and password and accept the requested permissions defined in the OAuth scope. If it succeeds, the access token will be stored in environmental variables so that other actions can use it. Here we print out the token string for logging, then redirect to the afterLoginAndAuth(). In the view, we also have a “sign out” button which allows a user to de-authorize to sign out:
 
+```swift
 //sign out
 spark?.authenticator.deauthorize()
+```
 
-Chat Support Channel:
+## Chat Support Channel:
 
 Now, we’re in the main board. The “Chat Support” channel allows a user to create a Spark space with a custom space name. On the “Create a space” button, we register a “Touch Up Inside” event:
 
@@ -81,6 +90,7 @@ Now, we’re in the main board. The “Chat Support” channel allows a user to 
 
 And under it we create a space:
 
+```swift
 // Create a new space
         spark!.rooms.create(title: spaceTitle){ response in
             switch response.result {
@@ -93,9 +103,11 @@ And under it we create a space:
                 return
             }
         }
+```
 
 And add a support rep into the space by email:
 
+```swift
 // Add a support rep to the space
     func addMember(space:Room) {
         if let email = EmailAddress.fromString(supportRepEmail){
@@ -112,9 +124,11 @@ And add a support rep into the space by email:
             }
         }
     }
+```
 
 Post a message to the space:
 
+```swift
 // Post a text message to the space
     func sendMessage(space:Room) {
         spark!.messages.post(roomId: space.id!, text: "Hello, anyone can help me?") { response in
@@ -129,9 +143,11 @@ Post a message to the space:
             }
         }
     }
+```
 
 The complete sample script is:
 
+```swift
     //create a space when a user clicks the "create a space" button
     @IBAction func createSpace(_ sender: Any) {
         
@@ -196,11 +212,12 @@ The complete sample script is:
             }
         }
 }
+```
 
 All the actions use the access token we get in authorization step at the backend. If you want to know how exactly a space is created, how a message is posted, etc., please refer to this document for the detailed information - https://developer.ciscospark.com/getting-started.html. They’re basically HTTP requests, and the doc shows how to set the method, header and body.
 
 
-Audio and Video Channel:
+## Audio and Video Channel:
 
 In the “Audio & Video Support” channel, we can send audio and video calls. Note, it can dial to not only a Spark address, but also any valid sip and PSTN destinations as long as you have enough privileges. In the “call” buttons, we register a “Touch Up Inside” event:
 
@@ -212,11 +229,13 @@ And under that we start doing the actual call.
 
 The first step is to register a device:
 
+```swift
 spark?.phone.register()
+```
 
 If it succeeds, do the actual call:
 
-
+```swift
 // Make a call
 var outboundCall:Call? = nil
                 self.spark?.phone.dial(dest, option:MediaOption.audioVideo(local: self.callerView, remote: self.calledView)) { response in
@@ -229,36 +248,43 @@ var outboundCall:Call? = nil
                         print("Call failed: \(error.localizedDescription)")
                     }
                 }
+```
 
 Note the “MediaOption.audioVideo”, it allows “audio” or “video” or both, and we can choose it based on requirement. It requires two parameters which specify the local and remote media views. In my demo, they’re the “callerView” and “calledView” views, defined as below:
 
+```swift
 @IBOutlet weak var callerView: MediaRenderView!
 @IBOutlet weak var calledView: MediaRenderView!
-
+```
 
 
 Monitor call status:
 
 In the call method, you may notice the initCallCallBack() method, and it defines the callback functions, as below:
 
+```swift
 call.onRinging
 call.onConnected
 call.onDisconnected
 call.onMediaChanged
 call.onCapabilitiesChanged
+```
 
 We can implement them and reflect the status to the UI. For example, in this demo I implement the .onRinging method:
 
+```swift
 call.onRinging = {
             self.callStatusLabel.text = "Call is ringing"
             print("callDidBeginRinging")
         }
+```
 
 and reflect the status to the callStatusLabel label then users can see “Call is ringing” when it rings on the called side.
 
 
 So the whole script is like:
 
+```swift
 func initCallCallBack(_ call:Call){
         
         call.onRinging = {
@@ -305,7 +331,7 @@ func initCallCallBack(_ call:Call){
             }
         }
         }
-
+```
 
 Now, we have finished the coding work, and the complete code can be found on Github - https://github.com/AdamKong/Spark-iOS-SDK-Demo-App
 
