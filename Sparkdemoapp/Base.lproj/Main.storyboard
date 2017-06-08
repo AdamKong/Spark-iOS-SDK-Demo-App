@@ -94,18 +94,18 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Room Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qNm-QI-8Az">
-                                <rect key="frame" x="56" y="154" width="100" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Space Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qNm-QI-8Az">
+                                <rect key="frame" x="56" y="154" width="103" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WSN-bH-b1A">
-                                <rect key="frame" x="196" y="154" width="97" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WSN-bH-b1A" userLabel="Create Space Button">
+                                <rect key="frame" x="196" y="154" width="103" height="30"/>
                                 <color key="backgroundColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Create a room"/>
+                                <state key="normal" title="Create a space"/>
                                 <connections>
-                                    <action selector="createRoom:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gf4-xA-KDs"/>
+                                    <action selector="createSpace:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cHS-1b-IXp"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio &amp; Video Support:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lHL-lA-2Nh">
@@ -139,7 +139,7 @@
                                     <action selector="signOut:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EZ0-Ic-pp7"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tuv-XI-4Aa">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tuv-XI-4Aa" userLabel="Space Success Label">
                                 <rect key="frame" x="19" y="146" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" red="1" green="0.69816887970289387" blue="0.73886063722635353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -222,14 +222,14 @@
                         <outlet property="calledView" destination="scx-eZ-DHr" id="A7r-9N-pPF"/>
                         <outlet property="callerLabel" destination="cmd-YI-lBA" id="P3w-Od-wNh"/>
                         <outlet property="callerView" destination="1L4-eH-p2i" id="BpL-0x-3P0"/>
-                        <outlet property="createRoomButton" destination="WSN-bH-b1A" id="5JJ-la-8vM"/>
+                        <outlet property="createSpaceButton" destination="WSN-bH-b1A" id="uI3-6F-rpC"/>
                         <outlet property="line1" destination="tS3-oN-wte" id="awO-st-Hab"/>
                         <outlet property="line2" destination="FbX-K5-obW" id="X5H-gc-viy"/>
-                        <outlet property="roomName" destination="qNm-QI-8Az" id="XuE-NV-0mZ"/>
-                        <outlet property="roomSuccessLabel" destination="Tuv-XI-4Aa" id="1KL-OS-Xbe"/>
                         <outlet property="signInButton" destination="rlB-Yd-8yO" id="boP-6h-UlT"/>
                         <outlet property="signInPrompt" destination="h9x-Vx-vQQ" id="M7m-5h-R1O"/>
                         <outlet property="signOutButton" destination="qFF-11-dV6" id="O9f-BK-3ne"/>
+                        <outlet property="spaceName" destination="qNm-QI-8Az" id="cIJ-h0-dqA"/>
+                        <outlet property="spaceSuccessLabel" destination="Tuv-XI-4Aa" id="gMU-cz-27k"/>
                         <outlet property="textSupportLabel" destination="pM5-3c-N3a" id="R2I-eO-dmB"/>
                     </connections>
                 </viewController>

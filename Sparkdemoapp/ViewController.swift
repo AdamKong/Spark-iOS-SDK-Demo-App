@@ -11,29 +11,33 @@ import SparkSDK
 
 class ViewController: UIViewController, UITextFieldDelegate {
     
-    var spark :Spark?
+    var spark : Spark?
     var authenticator:OAuthAuthenticator?
-    let supportRepEmail = "support@your_domain.com"
     
-    let clientId = "your_clientId"
-    let clientSecret = "your{_clientSecret"
+    let supportRepEmail = ""
+    let salesTeamNumber = ""
+    let supportTeamNumber = ""
+    let billingTeamNumber = ""
+    let defaultNumber = ""
+    
+    let clientId = ""
+    let clientSecret = ""
     let scope = "spark:all"
     let redirectUri = "Sparkdemoapp://response"
     
     //outlets
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var signOutButton: UIButton!
+    @IBOutlet weak var signInPrompt: UILabel!
     
     @IBOutlet weak var line2: UILabel!
     @IBOutlet weak var textSupportLabel: UILabel!
-    @IBOutlet weak var roomName: UITextField!
-    @IBOutlet weak var createRoomButton: UIButton!
-    @IBOutlet weak var roomSuccessLabel: UILabel!
-    
+    @IBOutlet weak var spaceName: UITextField!
+    @IBOutlet weak var createSpaceButton: UIButton!
+    @IBOutlet weak var spaceSuccessLabel: UILabel!
     @IBOutlet weak var line1: UILabel!
     
     @IBOutlet weak var audioVideoSupportLabel: UILabel!
-    
     @IBOutlet weak var callSalesTeam: UIButton!
     @IBOutlet weak var callSupportTeam: UIButton!
     @IBOutlet weak var callBillingTeam: UIButton!
@@ -43,64 +47,70 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var calledLabel: UILabel!
     @IBOutlet weak var calledView: MediaRenderView!
     
-    @IBOutlet weak var signInPrompt: UILabel!
-    
     
     //actions
-    //create a room with a user clicks the "create a room" button
-    @IBAction func createRoom(_ sender: Any) {
+    
+    //create a space when a user clicks the "create a space" button
+    @IBAction func createSpace(_ sender: Any) {
         
-        roomName.isHidden = true
-        createRoomButton.isHidden = true
-        roomSuccessLabel.isHidden = false
-        roomSuccessLabel.text = "Creating a room, please wait!"
+        spaceName.isHidden = true
+        createSpaceButton.isHidden = true
+        spaceSuccessLabel.isHidden = false
+        spaceSuccessLabel.text = "Creating a space, please wait!"
         
-        var roomTitle:String?
-        if roomName.text == nil || roomName.text == "" {
-            roomTitle = "Help Room"
+        var spaceTitle:String
+        if spaceName.text == nil {
+            spaceTitle = "Help Space"
         } else {
-            roomTitle = roomName.text!
+            spaceTitle = spaceName.text!
+            if spaceTitle.trimmingCharacters(in: .whitespaces) == "" {
+                spaceTitle = "Help Space"
+            }
         }
-        print("room title is: \(roomTitle!)")
+        print("space title is: \(spaceTitle)")
         
-        // Create a new room
-        spark!.rooms.create(title: roomTitle!){ response in
+        // Create a new space
+        spark!.rooms.create(title: spaceTitle){ response in
             switch response.result {
-            case .success(let ro):
-                print("\(ro.title!), created \(ro.created!): \(ro.id!)")
-                self.addMember(room:ro)
+            case .success(let space):
+                print("\(space.title!), created \(space.created!): \(space.id!)")
+                self.addMember(space:space)
             case .failure(let error):
                 print("Error: \(error.localizedDescription)")
+                self.spaceSuccessLabel.text = "Failed to create a space, pls retry later!"
                 return
             }
         }
     }
     
-    // Add a support rep to the room
-    func addMember(room:Room) {
+    // Add a support rep to the space
+    func addMember(space:Room) {
         if let email = EmailAddress.fromString(supportRepEmail){
-            spark!.memberships.create(roomId: room.id!, personEmail: email) { response in
+            spark!.memberships.create(roomId: space.id!, personEmail: email) { response in
                 switch response.result {
                 case .success(let membership):
-                    print("A member \(self.supportRepEmail) has been added into the room. ID:\(membership)")
-                    self.sendMessage(room:room)
+                    print("A member \(self.supportRepEmail) has been added into the space. membershipID:\(membership)")
+                    self.sendMessage(space:space)
                 case .failure(let error):
-                    print("Adding a member to the room has been failed: \(error.localizedDescription)")
+                    print("Adding a member to the space has been failed: \(error.localizedDescription)")
+                    self.spaceSuccessLabel.text = "Failed to add a rep, pls retry later!"
                     return
                 }
             }
         }
     }
     
-    // Post a text message to the room
-    func sendMessage(room:Room) {
-        spark!.messages.post(roomId: room.id!, text: "Hello, anyone can help me?") { response in
+    // Post a text message to the space
+    func sendMessage(space:Room) {
+        spark!.messages.post(roomId: space.id!, text: "Hello, anyone can help me?") { response in
             switch response.result {
             case .success(let message):
-                print("Message: \"\(message)\" has been sent to the room!")
-                self.roomSuccessLabel.text = "The Spark room and rep are ready!"
+                print("Message: \"\(message)\" has been sent to the space!")
+                self.spaceSuccessLabel.text = "The Spark space and rep are ready!"
             case .failure(let error):
                 print("Got error when posting a message: \(error.localizedDescription)")
+                self.spaceSuccessLabel.text = "Failed to post a message, pls retry later!"
+                return
             }
         }
     }
@@ -127,7 +137,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.roomName.delegate = self // set up textField delegate
+        self.spaceName.delegate = self // set up textField delegate
+        
         authenticator = OAuthAuthenticator.init(clientId: clientId, clientSecret: clientSecret, scope: scope, redirectUri: redirectUri)
         spark = Spark.init(authenticator: authenticator!)
         if  !authenticator!.authorized {
@@ -140,15 +151,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    
     func beforeLoginAndAuth() {
         signInButton.isHidden = false
         signOutButton.isHidden = true
         line2.isHidden = true
         textSupportLabel.isHidden = true
-        roomName.isHidden = true
-        createRoomButton.isHidden = true
-        roomSuccessLabel.isHidden = true
+        spaceName.isHidden = true
+        createSpaceButton.isHidden = true
+        spaceSuccessLabel.isHidden = true
         line1.isHidden = true
         
         audioVideoSupportLabel.isHidden = true
@@ -170,9 +180,10 @@ class ViewController: UIViewController, UITextFieldDelegate {
         signInButton.isHidden = true
         signOutButton.isHidden = false
         textSupportLabel.isHidden = false
-        roomName.isHidden = false
-        createRoomButton.isHidden = false
-        roomSuccessLabel.isHidden = false
+        spaceName.isHidden = false
+        spaceName.text = ""
+        createSpaceButton.isHidden = false
+        spaceSuccessLabel.isHidden = true
         
         line1.isHidden = false
         
@@ -181,6 +192,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         callSupportTeam.isHidden = false
         callBillingTeam.isHidden = false
         callStatusLabel.isHidden = false
+        callStatusLabel.text = "Idle"
         callerLabel.isHidden = false
         callerView.isHidden = false
         calledLabel.isHidden = false
@@ -196,17 +208,17 @@ class ViewController: UIViewController, UITextFieldDelegate {
         callSupportTeam.isEnabled = false
         callBillingTeam.isEnabled = false
         
-        var dest:String = "adkong@cisco.com"
+        var dest:String = defaultNumber
         let i:Int = (sender as AnyObject).tag!
         switch i {
         case 1:
-            dest = "sales team number"
+            dest = salesTeamNumber
         case 2:
-            dest = "support team number"
+            dest = supportTeamNumber
         case 3:
-            dest = "billing team number"
+            dest = billingTeamNumber
         default:
-            dest="default number"
+            dest = defaultNumber
         }
         
         // Register the device
@@ -278,14 +290,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
             self.callSupportTeam.isEnabled = true
             self.callBillingTeam.isEnabled = true
         }
-            
+        
         call.onMediaChanged = { event in
             switch event {
             case .cameraSwitched:
                 self.callStatusLabel.text = "Camera Switched"
                 print("Camera Switched")
             case .localVideoViewSize:
-                self.callStatusLabel.text = "Local Video View Size"
+                self.callStatusLabel.text = "Local Video View Size Changed"
                 print("Local Video View Size")
             case .receivingAudio(true):
                 self.callStatusLabel.text = "Receiving Audio"
@@ -300,7 +312,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
                 self.callStatusLabel.text = "Remote Sending Video"
                 print("Remote Sending Video")
             case .remoteVideoViewSize:
-                self.callStatusLabel.text = "Remote Video View Size"
+                self.callStatusLabel.text = "Remote Video View Size Changed"
                 print("Remote Video View Size")
             case .sendingAudio(true):
                 self.callStatusLabel.text = "Sending Audio"
