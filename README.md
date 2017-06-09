@@ -12,7 +12,7 @@ The demo is a “VIP Help Centre” where a user can get not only chat support b
 
 << add video here soon >>
 
-In the demo video, the caller view is blank, that’s because I was testing on an iPhone simulator which does not has a camera. On a real iPhone, it will show the caller’s video. If you have installed Xcode and it’s open, the built-in simulator can be found by “Xcode  Open Developer Tool  Simulator” in the menu. The demo app works well with the simulators of iPhone 6 and 7 series.
+In the demo video, the caller view is blank, that’s because I was testing on an iPhone simulator which does not has a camera. On a real iPhone, it will show the caller’s video. If you have installed Xcode and it’s open, the built-in simulator can be found by “Xcode --> Open Developer Tool --> Simulator” in the menu. The demo app works well with the simulators of iPhone 6 and 7 series.
 
 Ok, time to get started. 
 
