@@ -57,7 +57,7 @@ override func viewDidLoad() {
 
 On the “Sign in and Authorize” button, we register a “Touch Up Inside” event:
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/sign_in_and_authorize.png)
+![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/sign_in_and_authorize.png)
 
  And under it we do the login and authorization work:
 
@@ -84,7 +84,7 @@ spark?.authenticator.deauthorize()
 
 Now, we’re in the main board. The “Chat Support” channel allows a user to create a Spark space with a custom space name. On the “Create a space” button, we register a “Touch Up Inside” event:
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/createSpace.png)
+![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/createSpace.png)
 
 And under it we create a space:
 
@@ -219,7 +219,7 @@ All the actions use the access token we get in authorization step at the backend
 
 In the “Audio & Video Support” channel, we can send audio and video calls. Note, it can dial to not only a Spark address, but also any valid sip and PSTN destinations as long as you have enough privileges. In the “call” buttons, we register a “Touch Up Inside” event:
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/callOut.png)
+![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/callOut.png)
 
 And under that we start doing the actual call.
 
