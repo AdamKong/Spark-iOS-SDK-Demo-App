@@ -2,23 +2,23 @@
 # Integrate audio and video features into an iOS app via Spark iOS SDK
 
 
-Let’s say, you want to develop an app on the iOS platform that allows you and your customers to easily communicate with each other. You want to show your products, but also want to provide live support to them when they need help. Would it be amazing if your app can build audio and video in the app and make the connections with one sliding touch and one pressing!
+Let’s say you want to develop an app on the iOS platform that allows you and your customers to easily communicate with each other. You want to show your products, but also want to provide live support to them when they need help. Wouldn’t it be amazing if you could add audio and video into the app, and make the connections with a few simple touches?
 
-Now, this becomes possible and much simpler - Cisco has released an iOS Spark SDK (Android version is coming), which allows any iOS developer to easily integrate Spark audio and video calling features into your iOS app.
+Now, this becomes possible and much simpler - Cisco has released an iOS Spark SDK (Android version is coming), which allows any iOS developer to easily integrate Spark audio and video calling features into an iOS app.
 
-We write a sample app here. There is no complex script to learn and Cisco takes care of all underlying audio and media flows, so it’s very quick to learn and implement. We’re going to show you a demo, which explains how the SDK exactly works, so you can expand and modify it into any of your own app user case and ideas.
+We will provide a sample app here to get you started, including a demo video, which explains how the SDK exactly works, so you can expand and modify it for any usecase or idea. There is no complex code to learn, and Cisco takes care of all underlying audio and media flows, so it’s very quick to learn and implement
 
-The demo is a “VIP Help Centre” where a user can get not only chat support but also audio and video assistance. Please see the below video:
+The following app is for a “VIP Help Centre” where a user can get not only chat support but also audio and video assistance. To start, please watch the below video for a demonstration of the app functionality – once you’ve completed the video, move on to the rest of the blog for an explanation of the code: 
 
 << add video here soon >>
 
-In the demo video, the caller view is blank, that’s because I was testing on an iPhone simulator which does not has a camera. On a real iPhone, it will show the caller’s video. If you have installed Xcode and it’s open, the built-in simulator can be found by “Xcode --> Open Developer Tool --> Simulator” in the menu. The demo app works well with the simulators of iPhone 6 and 7 series.
+You’ll need Xcode installed and open in order to access the built-in simulator used in the video – just go to “Xcode  Open Developer Tool  Simulator” in the menu. The demo app works well with both the simulators of iPhone 6 and 7 series. 
 
-Ok, time to get started. 
+Ok, time to get started on the code itself. 
 
 ## Preparation work:
 
-At the first step, we have to get the SDK installed, which is outlined here at https://developer.ciscospark.com/sdk-for-ios.html, so I won’t talk much about this step. Once the SparkSDK is imported into the app without any error/alert prompted, we are ready for the next step.
+At the first step, we have to get the SDK installed, which is outlined here at https://developer.ciscospark.com/sdk-for-ios.html, so I won’t talk much about it. Once the SparkSDK is imported into the app without issue, we are ready for the next step. 
 
 Secondly, we need to create an OAuth app. It’s used for the iOS app to get an access token so that it can operate on behalf of a user (security and authentication). Here is the document for how Spark OAuth works - https://developer.ciscospark.com/authentication.html, and this is the place to create an OAuth app - https://developer.ciscospark.com/add-integration.html. The redirecturi has to be “Sparkdemoapp://response”, the scope has to be “spark:all”. Then we get the clientId and clientSecret.
 
@@ -26,7 +26,7 @@ Lastly, we need a simple UI. Since this is just a demo, I won’t do much decora
 
 ## Sign in, Authorize and Sign out: 
 
-After the app loads, we need to see whether the user has already authorized his app or not. The below two lines are to get an initialized authenticator, then get a Spark object:
+After the app loads, we need to see whether the user has already authorized his app or not. The below two lines are to get an initialized authenticator, then get a Spark object: 
 
 ```swift
 authenticator = OAuthAuthenticator.init(clientId: clientId, clientSecret: clientSecret, scope: scope, redirectUri: redirectUri)
@@ -212,12 +212,15 @@ The complete sample script is:
 }
 ```
 
-All the actions use the access token we get in authorization step at the backend. If you want to know how exactly a space is created, how a message is posted, etc., please refer to this document for the detailed information - https://developer.ciscospark.com/getting-started.html. They’re basically HTTP requests, and the doc shows how to set the method, header and body.
+All the actions use the access token we get in the authorization step at the backend. If you want to know how exactly a space is created, how a message is posted, etc., please refer to this document for the detailed information - https://developer.ciscospark.com/getting-started.html. They’re all REST requests, and the doc shows how to set the method, header
+and body. 
 
 
 ## Audio and Video Channel:
 
-In the “Audio & Video Support” channel, we can send audio and video calls. Note, it can dial to not only a Spark address, but also any valid sip and PSTN destinations as long as you have enough privileges. In the “call” buttons, we register a “Touch Up Inside” event:
+In the “Audio & Video Support” channel, we can send audio and video calls. If you want to dial SIP or PSTN destinations, you will need the correct privileges – contact your Spark org admin or your Cisco partner to confirm.
+
+In the “call” buttons, we register a “Touch Up Inside” event:
 
 ![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/callOut.png)
 
@@ -246,7 +249,7 @@ var outboundCall:Call? = nil
                 }
 ```
 
-Note the “MediaOption.audioVideo”, it allows “audio” or “video” or both, and we can choose it based on requirement. It requires two parameters which specify the local and remote media views. In my demo, they’re the “callerView” and “calledView” views, defined as below:
+Note the “MediaOption.audioVideo”, it allows “audio” or “video” or both, and we can choose it based on requirement. It requires two parameters which specify the local and remote media views. In my demo, they’re the “callerView” and “calledView” views, defined as below: 
 
 ```swift
 @IBOutlet weak var callerView: MediaRenderView!
@@ -275,7 +278,7 @@ call.onRinging = {
         }
 ```
 
-and reflect the status to the callStatusLabel label then users can see “Call is ringing” when it rings on the called side.
+and reflect the status to the callStatusLabel label then users can see “Call is ringing” when it rings on the called side. 
 
 
 So the whole script is like:
