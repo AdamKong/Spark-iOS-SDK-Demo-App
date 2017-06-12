@@ -55,7 +55,7 @@ override func viewDidLoad() {
 
 ```
 
-On the “Sign in and Authorize” button, we register a “Touch Up Inside” event:
+On the “Sign in and Authorize” button in the simple UI, we register a “Touch Up Inside” event:
 
 ![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/sign_in_and_authorize.png)
 
