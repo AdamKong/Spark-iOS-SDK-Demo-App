@@ -57,18 +57,18 @@ override func viewDidLoad() {
 
 In the view users log in and authorize, we add a button so that they can click to start the process. I’m going to show how to add a button and associate a function to the “touch-up” event on it: 
 
-From the “Object library”, drag a button into the main board and give it a name “Log in and Authorize” (in the “Attributes inspector”):
+From the “Object library”, drag a button into the main board and give it a name “Log in and Authorize” in the “Attributes inspector” ([More details](http://help.apple.com/xcode/mac/9.0/#/dev9ffcd0c51) from Apple's doc):
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/add_a_button.png)
+![add a button](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/add_a_button.png)
 
 
-Then click the “Assistant editor”. Now we need to associate the touch-up action on the button with a function – press the “control” key (do not release), use the mouse to drag the button into the “ViewController” class in the script area, release the mouse, then a popped-up window will appear (we now can release the “control” key):
+Then click the “Assistant editor”. Now we need to associate the touch-up action on the button with a function – press the “control” key (do not release), use the mouse to drag the button into the “ViewController” class in the script area, release the mouse, then a popped-up window will appear, as below. We now can release the “control” key. ([More details](http://help.apple.com/xcode/mac/9.0/#/dev9662c7670) from Apple's doc):
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/associate_a_function.png)
+![associate a function](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/associate_a_function.png)
 
 Choose the “connection” as “action”, give it a name, and set the “Event” as “Touch Up Inside”. Then after we click the “Connect”, it will automatically create a function in the “ViewController” class, and associate the function with the touch-up event on the button:
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/binding.png)
+![binding](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/binding.png)
 
 And under it we do the login and authorization work:
 
@@ -86,7 +86,7 @@ authenticator!.authorize(parentViewController: self) { success in
 
 In this demo app, it is:
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/sign_in_and_authorize.png)
+![sing in and authorize](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/sign_in_and_authorize.png)
 
 
 The authorize() method starts the signing in and OAuth process. It redirects the user to Spark interface to let him input username and password and accept the requested permissions defined in the OAuth scope. If it succeeds, the access token will be stored in environmental variables so that other actions can use it. Here we print out the token string for logging, then redirect to the afterLoginAndAuth(). In the view, we also have a “sign out” button which allows a user to de-authorize to sign out:
@@ -101,7 +101,7 @@ spark?.authenticator.deauthorize()
 
 Now, we’re in the main board. The “Chat Support” channel allows a user to create a Spark space with a custom space name. On the “Create a space” button, we register a “Touch Up Inside” event to it (The same procedure as the above, so I won’t repeat it here):
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/createSpace.png)
+![create space](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/createSpace.png)
 
 And under it we create a space:
 
@@ -239,7 +239,7 @@ In the “Audio & Video Support” channel, we can send audio and video calls. I
 
 In the “call” buttons, we register a “Touch Up Inside” event (the same procedure as the “Log In and Authorize” step):
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/callOut.png)
+![call out](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/callOut.png)
 
 And under that we start doing the actual call.
 
