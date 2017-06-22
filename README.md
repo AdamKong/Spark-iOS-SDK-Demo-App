@@ -349,5 +349,5 @@ func initCallCallBack(_ call:Call){
         }
 ```
 
-Now, we have finished the coding work, and the complete code can be found on Github - https://github.com/ciscospark/Spark-API-Demos/tree/master/Spark-iOS-SDK-Demo-App. If you have any questions, please contact devsupport@ciscospark.com 24/7/365 - we’re happy to help all the time!
+Now, we have finished the coding work, and the complete code can be found on [Github](https://github.com/ciscospark/Spark-API-Demos/tree/master/Spark-iOS-SDK-Demo-App). If you have any questions, please contact devsupport@ciscospark.com 24/7/365 - we’re happy to help all the time!
 
