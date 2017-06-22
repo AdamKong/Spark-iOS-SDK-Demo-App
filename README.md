@@ -1,5 +1,5 @@
 
-# Integrate audio and video features into an iOS app via Spark iOS SDK
+# Integrate Audio and Video Features into an iOS app using the Cisco Spark iOS SDK
 
 
 Let’s say you want to develop an app on the iOS platform that allows you and your customers to easily communicate with each other. You want to show your products, but also want to provide live support to them when they need help. Wouldn’t it be amazing if you could add audio and video into the app, and make the connections with a few simple touches?
@@ -55,11 +55,22 @@ override func viewDidLoad() {
 
 ```
 
-On the “Sign in and Authorize” button in the simple UI, we register a “Touch Up Inside” event:
+In the view users log in and authorize, we add a button so that they can click to start the process. I’m going to show how to add a button and associate a function to the “touch-up” event on it: 
 
-![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/sign_in_and_authorize.png)
+From the “Object library”, drag a button into the main board and give it a name “Log in and Authorize” (in the “Attributes inspector”):
 
- And under it we do the login and authorization work:
+![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/add_a_button.png)
+
+
+Then click the “Assistant editor”. Now we need to associate the touch-up action on the button with a function – press the “control” key (do not release), use the mouse to drag the button into the “ViewController” class in the script area, release the mouse, then a popped-up window will appear (we now can release the “control” key):
+
+![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/associate_a_function.png)
+
+Choose the “connection” as “action”, give it a name, and set the “Event” as “Touch Up Inside”. Then after we click the “Connect”, it will automatically create a function in the “ViewController” class, and associate the function with the touch-up event on the button:
+
+![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/binding.png)
+
+And under it we do the login and authorization work:
 
 ```swift
 // sign in and do the authorization via Oauth
@@ -73,7 +84,13 @@ authenticator!.authorize(parentViewController: self) { success in
         }
 ```
 
+In this demo app, it is:
+
+![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/sign_in_and_authorize.png)
+
+
 The authorize() method starts the signing in and OAuth process. It redirects the user to Spark interface to let him input username and password and accept the requested permissions defined in the OAuth scope. If it succeeds, the access token will be stored in environmental variables so that other actions can use it. Here we print out the token string for logging, then redirect to the afterLoginAndAuth(). In the view, we also have a “sign out” button which allows a user to de-authorize to sign out:
+
 
 ```swift
 //sign out
@@ -82,7 +99,7 @@ spark?.authenticator.deauthorize()
 
 ## Chat Support Channel:
 
-Now, we’re in the main board. The “Chat Support” channel allows a user to create a Spark space with a custom space name. On the “Create a space” button, we register a “Touch Up Inside” event:
+Now, we’re in the main board. The “Chat Support” channel allows a user to create a Spark space with a custom space name. On the “Create a space” button, we register a “Touch Up Inside” event to it (The same procedure as the above, so I won’t repeat it here):
 
 ![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/createSpace.png)
 
@@ -220,7 +237,7 @@ and body.
 
 In the “Audio & Video Support” channel, we can send audio and video calls. If you want to dial SIP or PSTN destinations, you will need the correct privileges – contact your Spark org admin or your Cisco partner to confirm.
 
-In the “call” buttons, we register a “Touch Up Inside” event:
+In the “call” buttons, we register a “Touch Up Inside” event (the same procedure as the “Log In and Authorize” step):
 
 ![](https://github.com/AdamKong/Spark-iOS-SDK-Demo-App/blob/master/Sparkdemoapp/img_for_README/callOut.png)
 
@@ -332,7 +349,5 @@ func initCallCallBack(_ call:Call){
         }
 ```
 
-Now, we have finished the coding work, and the complete code can be found on Github - https://github.com/AdamKong/Spark-iOS-SDK-Demo-App
-
-If you have any questions, please contact devsupport@ciscospark.com 24/7/365 - we’re happy to help all the time!
+Now, we have finished the coding work, and the complete code can be found on Github - https://github.com/ciscospark/Spark-API-Demos/tree/master/Spark-iOS-SDK-Demo-App. If you have any questions, please contact devsupport@ciscospark.com 24/7/365 - we’re happy to help all the time!
 
